@@ -1,3 +1,5 @@
+'''App to return cites visitor count'''
+
 from os import getenv
 from flask import Flask
 from flask import redirect, render_template
