@@ -1,3 +1,7 @@
-Hello this is chatapp3000!
-<p>
-Number of visitors: {{ counter }}.
+{% if session.user_id %}
+<p>Hello {{ session.user_name }}</p>
+<a href="/chats">chat</a> | <a href="/logout">Logout</a>
+{% else %}
+Welcome this is chatapp3000
+<a href="/login">Login</a>
+{% endif %}
