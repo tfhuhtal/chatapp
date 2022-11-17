@@ -1,6 +1,13 @@
 {% if session.user_id %}
 <p>Hello {{ session.user_name }}</p>
-<a href="/chats">chat</a> | <a href="/logout">Logout</a>
+<p>
+<a href="/new">Join room</a> | <a href="/profile">Profile</a> | <a href="/logout">Logout</a>
+<p>
+{% for message in messages %}
+{{ message[0] }} : {{ message[1] }}
+<p>
+{% endfor %}
+
 {% else %}
 Welcome this is chatapp3000
 <a href="/login">Login</a>

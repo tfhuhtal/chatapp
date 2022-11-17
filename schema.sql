@@ -1,8 +1,3 @@
-CREATE TABLE visitors (
-    id SERIAL PRIMARY KEY,
-    time TIMESTAMP
-);
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
@@ -11,8 +6,8 @@ CREATE TABLE users (
 
 CREATE TABLE participants (
     id SERIAL PRIMARY KEY,
-    userID INTEGER,
-    roomID INTEGER
+    user_id INTEGER REFERENCES users,
+    room_id INTEGER REFERENCES rooms
 );
 
 CREATE TABLE rooms (
@@ -22,8 +17,14 @@ CREATE TABLE rooms (
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
-    roomID INTEGER,
-    userID INTEGER,
-    message TEXT,
+    room_id INTEGER REFERENCES rooms,
+    user_id INTEGER REFERENCES users,
+    content TEXT,
     sent_at TIMESTAMP
+);
+
+CREATE TABLE admins (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    room_id INTEGER REFERENCES rooms
 );

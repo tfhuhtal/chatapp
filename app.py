@@ -8,7 +8,6 @@ from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 
-
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 
@@ -19,7 +18,8 @@ db = SQLAlchemy(app)
 @app.route("/")
 def index():
     '''-'''
-    return render_template("index.html")
+    list = get_list()
+    return render_template("index.html", messages=list)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -58,9 +58,9 @@ def register():
             return render_template("error.html", message="Failed to register")
 
 
-@app.route("/chats")
+@app.route("/profile")
 def chats():
-    return render_template("chats.html")
+    return render_template("profile.html")
 
 
 
@@ -94,4 +94,10 @@ def register(username, password):
 def user_id():
     '''returns users id'''
     return session.get("user_id",0)
+
+def get_list():
+    '''-'''
+    sql = "SELECT p.room_id, u.username FROM users u, participants p WHERE p.user_id = u.id"
+    result = db.session.execute(sql)
+    return result.fetchall()
 
