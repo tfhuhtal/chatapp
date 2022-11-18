@@ -1,14 +1,14 @@
 {% if session.user_id %}
 <p>Hello {{ session.user_name }}</p>
 <p>
-<a href="/new">Join room</a> | <a href="/profile">Profile</a> | <a href="/logout">Logout</a>
+<a href="/logout">Logout</a>
 <p>
-{% for message in messages %}
-{{ message[0] }} : {{ message[1] }}
+{% for room in rooms %}
+{{ room[0] }}
 <p>
 {% endfor %}
 
 {% else %}
-Welcome this is chatapp3000
+Welcome, this is chatapp3000!
 <a href="/login">Login</a>
 {% endif %}
