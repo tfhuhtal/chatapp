@@ -1,6 +1,8 @@
 # chatapp
 This is a repository for my awesome chat app!
 
+
+
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet kurssisivuilta:
 Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.

@@ -4,8 +4,7 @@
 Hello {{ session.username }}, here is your chat rooms!
 <p>
 {% for room in rooms %}
-{{ room[0] }}
-<p>
+<li><a href="/rooms/{{ room[1] }}">{{ room[0] }}</a></li>
 {% endfor %}
 {% else %}
 Welcome, this is chatapp3000!
