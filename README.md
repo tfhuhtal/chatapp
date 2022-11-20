@@ -1,6 +1,22 @@
 # chatapp
 This is a repository for my awesome chat app!
 
+Sovelluksen nettisivu: https://chatapp3000.fly.dev
+Tämän hetkinen tilanne sovelluksessa:
+- voi luoda uuden käyttäjätunnuksen
+- voi kirjautua sivustolle
+- näkee sovelluksen etusivulta omat keskustelut
+- voi luoda uuden keskustelun
+- voi liittyä keskusteluun
+- voi kirjautua ulos
+
+Tuotannossa voi testata sovellusta näillä ohjeilla:
+1. kloonaa repo omaan haluamaasi kansioosi
+2. poista db.py ohjelmasta kohta ".replace("://", "ql://", 1)"
+3. aseta omat luo oma .env kansio ja sinne omat secret_key ja databa_url muuttujat
+4. pip install requirements.txt
+5. venv ja psql päälle ja luo schema.sql mukaiset taulut
+6. flask run
 
 
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet kurssisivuilta:
