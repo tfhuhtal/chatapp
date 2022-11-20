@@ -1,0 +1,7 @@
+{% if session.user_id %}
+<form action="/join" method="post">
+    Room: <input type="text" name="room_name">
+    <p>
+    <input type="submit" value="Join room">
+    </form>
+{% endif %}

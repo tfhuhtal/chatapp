@@ -1,0 +1,9 @@
+{% if session.user_id %}
+<form action="/create" method="post">
+    Room: <input type="text" name="room_name">
+    <p>
+    <input type="submit" value="Create room">
+    </form>
+{% else %}
+<a href="/login">Login</a>
+{% endif %}

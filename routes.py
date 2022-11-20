@@ -56,3 +56,33 @@ def register():
             return render_template("error.html", message="Failed to register!")
 
  
+@app.route("/create", methods=["GET", "POST"])
+def create():
+    '''create room page'''
+
+    if request.method == "GET":
+        return render_template("create.html")
+
+    if request.method == "POST":
+        room_name = request.form["room_name"]
+
+        if users.add_room(room_name):
+            return redirect("/")
+        
+        else:
+            return render_template("error.html", message="Failed to create room!")
+
+
+@app.route("/join", methods=["GET", "POST"])
+def join():
+    '''joins new room if possible'''
+
+    if request.method == "GET":
+        return render_template("join.html")
+    
+    if request.method == "POST":
+        room_name = request.form["room_name"]
+        if users.join_room(room_name):
+            return redirect("/")
+        else:
+            return render_template("error.html", message="Failed to join room!")
