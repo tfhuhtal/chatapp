@@ -61,7 +61,19 @@ def join():
     return render_template("join.html")
 
 
-@app.route('/rooms/<room_id>/')
+@app.route('/rooms/<room_id>/', methods=["GET", "POST"])
 def view_room(room_id):
-    room = rooms.get_room(room_id)
-    return render_template("room.html", room=room)
+    if users.is_member(room_id):
+        users.set_room_id(room_id)
+        room = rooms.get_room(room_id)
+        messages = rooms.get_messages(room_id)
+        members = rooms.get_members(room_id)
+        return render_template("room.html", room=room, messages=messages, members=members)
+    return render_template("error.html", message="You have no access to this chat!")
+
+@app.route('/send', methods=["POST"])
+def send():
+    content = request.form["content"]
+    if users.send_message(content):
+        return redirect("/rooms/" + users.get_room_id() + "/")
+    return render_template("error.html", message="Failed to send a message!")

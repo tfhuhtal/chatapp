@@ -1,3 +1,19 @@
 {% if session.user_id %}
-{{ room[0] }}
+{{ room[0] }} | <a href="/">Chats</a> | <a href="/logout">Logout</a>
+<p>
+Members
+<ul>
+    {% for member in members %}
+        <li>{{ member[0] }}</li>
+    {% endfor %}
+</ul>
+<p>
+{% for message in messages %}
+    <div>{{ message[0] }}&nbsp;[{{ message[1] }}]:&nbsp; {{ message[2] }}</div>
+{% endfor %}
+
+<form action="/send" method="post">
+    <textarea type="text" name="content" rows="1" cols="20" minlength="1" maxlength="5000" required="True"></textarea>
+    <input type="submit" value="Send"></input>
+</form>
 {% endif %}
