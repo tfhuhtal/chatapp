@@ -21,10 +21,10 @@ Tuotannossa voi testata sovellusta näillä ohjeilla:
 
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet kurssisivuilta:
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
-- Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
-- Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
-- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
-- Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ketjun tai viestin.
+- Käyttäjä näkee sovelluksen etusivulla listan omista ryhmistä sekä jokaisen ryhmän viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
+- Käyttäjä voi luoda alueelle uuden ryhmän antamalla ryhmän nimen.
+- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ryhmään.
+- Käyttäjä voi muokata luomansa ryhmän nimeä sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ryhmän tai viestin.
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 - Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
