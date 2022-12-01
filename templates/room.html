@@ -9,11 +9,11 @@ Members
 </ul>
 <p>
 {% for message in messages %}
-    <div>{{ message[0] }}&nbsp;[{{ message[1] }}]:&nbsp; {{ message[2] }}</div>
+    <div>{{ message[0] }}&nbsp;[{{ message[1].strftime("%m-%d %H:%M") }}]:&nbsp; {{ message[2] }}</div>
 {% endfor %}
 
 <form action="/send" method="post">
     <textarea type="text" name="content" rows="1" cols="20" minlength="1" maxlength="5000" required="True"></textarea>
-    <input type="submit" value="Send"></input>
+    <input type="submit" onclick="sendMessage()" value="Send"></input>
 </form>
 {% endif %}

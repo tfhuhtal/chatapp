@@ -8,6 +8,7 @@ Tämän hetkinen tilanne sovelluksessa:
 - näkee sovelluksen etusivulta omat keskustelut
 - voi luoda uuden keskustelun
 - voi liittyä keskusteluun
+- voi lähettää viestin keskusteluun
 - voi kirjautua ulos
 
 Tuotannossa voi testata sovellusta näillä ohjeilla:

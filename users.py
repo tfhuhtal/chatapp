@@ -79,4 +79,3 @@ def is_member(room_id):
         if user[0] == get_user_id():
             return True
     return False
-    
