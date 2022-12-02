@@ -95,3 +95,12 @@ def edit():
     if rooms.update_name(room_name):
         return redirect("/rooms/" + users.get_room_id() + "/")
     return render_template("error.html", message="Failed to update name")
+
+
+@app.route("/remove", methods=["POST"])
+def remove():
+    user_name = request.form["user_name"]
+    if rooms.remove_user(user_name):
+        return redirect("/rooms/" + users.get_room_id() + "/")
+    return render_template("error.html", message="You have no admin rights")
+    

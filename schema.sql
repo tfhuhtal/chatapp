@@ -7,7 +7,8 @@ CREATE TABLE users (
 CREATE TABLE participants (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    room_id INTEGER REFERENCES rooms
+    room_id INTEGER REFERENCES rooms,
+    visible BOOLEAN
 );
 
 CREATE TABLE rooms (
