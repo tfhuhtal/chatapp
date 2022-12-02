@@ -78,3 +78,20 @@ def send():
     if users.send_message(content):
         return redirect("/rooms/" + users.get_room_id() + "/")
     return render_template("error.html", message="Failed to send a message!")
+
+
+@app.route("/rooms/<room_id>/edit", methods=["GET", "POST"])
+def edit_room_view(room_id):
+    if users.is_member(room_id):
+        room = rooms.get_room(room_id)
+        members = rooms.get_members(room_id)
+        return render_template("edit.html", room=room, members=members)
+    return render_template("error.html", message="You have no access to this site")
+
+
+@app.route("/edit", methods=["POST"])
+def edit():
+    room_name = request.form["room_name"]
+    if rooms.update_name(room_name):
+        return redirect("/rooms/" + users.get_room_id() + "/")
+    return render_template("error.html", message="Failed to update name")

@@ -1,0 +1,14 @@
+{% if session.user_id %}
+Update room name or remove participants.
+<p>
+<form action="/edit" method="post">
+    <input type="text" name="room_name" value="{{ room[0] }}" minlength="1" maxlength="5000" required="True">
+    <input type="submit" value="update">
+</form>
+Members
+<ul>
+    {% for member in members %}
+        <li>{{ member[0] }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

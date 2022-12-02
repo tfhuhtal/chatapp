@@ -3,8 +3,8 @@ import users
 
 def get_rooms():
     sql = """SELECT r.name, r.id
-    FROM participants p, rooms r
-    WHERE p.user_id=:user_id AND r.id = p.room_id"""
+            FROM participants p, rooms r
+            WHERE p.user_id=:user_id AND r.id = p.room_id"""
     room_list = db.session.execute(sql, {"user_id":users.get_user_id()}).fetchall()
     return room_list
 
@@ -29,3 +29,12 @@ def get_members(room_id):
     WHERE u.id = p.user_id AND p.room_id=:rid"""
     members = db.session.execute(sql, {"rid":room_id}).fetchall()
     return members
+
+def update_name(room_name):
+    try:
+        sql = """UPDATE rooms SET name=:room_name WHERE id=:rid"""
+        db.session.execute(sql, {"room_name":room_name, "rid":users.get_room_id()})
+        db.session.commit()
+    except:
+        return False
+    return True
