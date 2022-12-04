@@ -1,7 +1,7 @@
 from db import db
 import users
 
-def get_rooms():
+def get_rooms_and_messages():
     sql = """SELECT r.name, r.id
             FROM participants p, rooms r
             WHERE p.user_id=:user_id AND r.id = p.room_id AND p.visible=TRUE"""
@@ -48,3 +48,14 @@ def remove_user(user_name):
     except:
         return False
     return True
+
+
+def is_admin():
+    sql = """SELECT u.id
+            FROM users u, admins a
+            WHERE u.id = a.user_id AND u.id=:uid AND a.room_id=:rid"""
+    admins= db.session.execute(sql,{"uid":users.get_user_id(),"rid":users.get_room_id()}).fetchall()
+    for admin in admins:
+        if admin[0] == users.get_user_id():
+            return True
+    return False

@@ -6,7 +6,7 @@ import rooms
 
 @app.route("/")
 def index():
-    room_list = rooms.get_rooms()
+    room_list = rooms.get_rooms_and_messages()
     return render_template("index.html", rooms=room_list)
 
 
@@ -100,7 +100,8 @@ def edit():
 @app.route("/remove", methods=["POST"])
 def remove():
     user_name = request.form["user_name"]
+    if not rooms.is_admin():
+        return render_template("error.html", message="You have no admin rights")
     if rooms.remove_user(user_name):
         return redirect("/rooms/" + users.get_room_id() + "/")
-    return render_template("error.html", message="You have no admin rights")
-    
+    return render_template("error.html", message="Unable to remove user")

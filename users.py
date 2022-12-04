@@ -39,6 +39,7 @@ def add_room(room_name):
         db.session.commit()
     except:
         return False
+    set_admin(room_name)
     return join_room(room_name)
 
 
@@ -52,11 +53,12 @@ def join_room(room_name):
         return False
     return True
 
+
 def send_message(content):
     try:
         sql = """INSERT INTO messages (room_id, user_id, content, sent_at)
                 VALUES (:room_id, :user_id, :content, NOW())"""
-        db.session.execute(sql, {"room_id":get_room_id(), "user_id":get_user_id(), "content":content})
+        db.session.execute(sql,{"room_id":get_room_id(),"user_id":get_user_id(),"content":content})
         db.session.commit()
     except:
         return False
@@ -66,16 +68,20 @@ def send_message(content):
 def get_user_id():
     return session.get("user_id",0)
 
+
 def get_user_id_by_username(user_name):
     sql = """SELECT id FROM users WHERE username=:un"""
     idn = db.session.execute(sql, {"un": user_name}).fetchone()
     return idn[0]
 
+
 def get_room_id():
     return session.get("room_id", 0)
 
+
 def set_room_id(room_id):
     session["room_id"] = room_id
+
 
 def is_member(room_id):
     sql = """SELECT user_id FROM participants WHERE room_id=:id AND visible=TRUE"""
@@ -84,3 +90,14 @@ def is_member(room_id):
         if user[0] == get_user_id():
             return True
     return False
+
+
+def set_admin(room_name):
+    rid = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
+    try:
+        sql = """INSERT INTO admins (user_id, room_id) VALUES (:user_id, :room_id)"""
+        db.session.execute(sql, {"user_id":get_user_id(), "room_id":rid[0]})
+    except:
+        return False
+    return True
+    

@@ -10,6 +10,8 @@ Tämän hetkinen tilanne sovelluksessa:
 - voi liittyä keskusteluun
 - voi lähettää viestin keskusteluun
 - voi kirjautua ulos
+- voi poistaa käyttäjiä keskusteluista, mikäli on admin
+- voi muokata huoneen nimeä
 
 Tuotannossa voi testata sovellusta näillä ohjeilla:
 1. kloonaa repo omaan haluamaasi kansioosi
@@ -25,7 +27,7 @@ Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet kurssisivuilta
 - Käyttäjä näkee sovelluksen etusivulla listan omista ryhmistä sekä jokaisen ryhmän viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
 - Käyttäjä voi luoda alueelle uuden ryhmän antamalla ryhmän nimen.
 - Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ryhmään.
-- Käyttäjä voi muokata luomansa ryhmän nimeä sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ryhmän tai viestin.
+- Käyttäjä voi muokata luomansa ryhmän nimeä sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ryhmän.
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
-- Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
+- Ylläpitäjä poistaa keskusteluita.
 - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
