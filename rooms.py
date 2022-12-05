@@ -1,12 +1,20 @@
 from db import db
 import users
 
-def get_rooms_and_messages():
-    sql = """SELECT r.name, r.id
-            FROM participants p, rooms r
-            WHERE p.user_id=:user_id AND r.id = p.room_id AND p.visible=TRUE"""
-    room_list = db.session.execute(sql, {"user_id":users.get_user_id()}).fetchall()
-    return room_list
+def get_rooms():
+    sql = """SELECT r.name, r.id, count(p.user_id)
+            FROM rooms r
+            LEFT JOIN participants p
+            ON r.id = p.room_id AND p.visible=TRUE
+            GROUP BY r.name, r.id"""
+    room_list = db.session.execute(sql).fetchall()
+    rooms = users.rooms()
+    result = []
+    for xroom in rooms:
+        for yroom in room_list:
+            if xroom[0] == yroom[0]:
+                result.append(yroom)
+    return result
 
 
 def get_room(room_id):
@@ -25,8 +33,8 @@ def get_messages(room_id):
 
 def get_members(room_id):
     sql = """SELECT u.username
-    FROM users u, participants p
-    WHERE u.id = p.user_id AND p.room_id=:rid AND p.visible=TRUE"""
+            FROM users u, participants p
+            WHERE u.id = p.user_id AND p.room_id=:rid AND p.visible=TRUE"""
     members = db.session.execute(sql, {"rid":room_id}).fetchall()
     return members
 
@@ -42,8 +50,8 @@ def update_name(room_name):
 def remove_user(user_name):
     idn = users.get_user_id_by_username(user_name)
     try:
-        sql = """UPDATE participants SET visible=FALSE WHERE user_id=:id"""
-        db.session.execute(sql, {"id":idn})
+        sql = """UPDATE participants SET visible=FALSE WHERE user_id=:uid AND room_id=:rid"""
+        db.session.execute(sql, {"uid":idn, "rid":users.get_room_id()})
         db.session.commit()
     except:
         return False

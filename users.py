@@ -100,4 +100,11 @@ def set_admin(room_name):
     except:
         return False
     return True
-    
+
+
+def rooms():
+    sql = """SELECT r.name
+            FROM participants p, rooms r
+            WHERE p.user_id=:uid AND p.room_id = r.id AND p.visible=TRUE"""
+    users_rooms = db.session.execute(sql, {"uid": get_user_id()}).fetchall()
+    return users_rooms

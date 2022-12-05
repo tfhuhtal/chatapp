@@ -6,7 +6,7 @@ import rooms
 
 @app.route("/")
 def index():
-    room_list = rooms.get_rooms_and_messages()
+    room_list = rooms.get_rooms()
     return render_template("index.html", rooms=room_list)
 
 

@@ -5,7 +5,7 @@ Sovelluksen nettisivu: https://chatapp3000.fly.dev
 Tämän hetkinen tilanne sovelluksessa:
 - voi luoda uuden käyttäjätunnuksen
 - voi kirjautua sivustolle
-- näkee sovelluksen etusivulta omat keskustelut
+- näkee sovelluksen etusivulta omat keskustelut ja kuinka monta osallistujaa keskustelussa on
 - voi luoda uuden keskustelun
 - voi liittyä keskusteluun
 - voi lähettää viestin keskusteluun
@@ -24,7 +24,7 @@ Tuotannossa voi testata sovellusta näillä ohjeilla:
 
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet kurssisivuilta:
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
-- Käyttäjä näkee sovelluksen etusivulla listan omista ryhmistä sekä jokaisen ryhmän viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
+- Käyttäjä näkee sovelluksen etusivulla listan omista ryhmistä ja niiden osallistuja määrän
 - Käyttäjä voi luoda alueelle uuden ryhmän antamalla ryhmän nimen.
 - Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ryhmään.
 - Käyttäjä voi muokata luomansa ryhmän nimeä sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ryhmän.
