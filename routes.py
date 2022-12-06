@@ -52,7 +52,10 @@ def create():
     if request.method == "POST":
         users.check_csrf()
         room_name = request.form["room_name"]
-        if users.add_room(room_name):
+        for room in users.rooms():
+            if room[0] == room_name:
+                return render_template("error.html", message="This room already exists")
+        if rooms.add_room(room_name):
             return redirect("/")
         return render_template("error.html", message="Failed to create room!")
     return render_template("create.html")
@@ -63,6 +66,9 @@ def join():
     if request.method == "POST":
         users.check_csrf()
         room_name = request.form["room_name"]
+        for room in users.rooms():
+            if room[0] == room_name:
+                return render_template("error.html", message="You have already joined to this room")
         if users.join_room(room_name):
             return redirect("/")
         return render_template("error.html", message="Failed to join room!")
@@ -108,10 +114,10 @@ def edit():
 
 @app.route("/remove", methods=["POST"])
 def remove():
-    users.check_csrf()
-    user_name = request.form["user_name"]
-    if not rooms.is_admin():
-        return render_template("error.html", message="You have no admin rights")
-    if rooms.remove_user(user_name):
-        return redirect("/rooms/" + users.get_room_id() + "/")
-    return render_template("error.html", message="Unable to remove user")
+    if request.method == "POST":
+        user_name = request.form["user_name"]
+        if not rooms.is_admin():
+            if user_name != users.get_username():
+                return render_template("error.html", message="You have no rights to remove user")
+        if rooms.remove_user(user_name):
+            return redirect("/rooms/" + users.get_room_id() + "/")

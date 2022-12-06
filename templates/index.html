@@ -3,8 +3,10 @@
 {% if session.user_id %}
 Hello {{ session.username }}, here is your chat rooms!
 <p>
+<ul>
 {% for room in rooms %}
 <li><a href="/rooms/{{ room[1] }}">{{ room[0] }}</a> users: {{ room[2] }}</li> <!--lisää ryhmän jäsenien määrän ja viimeiseksi tulleen viestin ajankohta.-->
 {% endfor %}
+</ul>
 {% endif%}
 {% endblock %}

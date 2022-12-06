@@ -35,22 +35,11 @@ def register(username, password):
     return login(username, password)
 
 
-def add_room(room_name):
-    try:
-        sql = "INSERT INTO rooms (name) VALUES (:room_name)"
-        db.session.execute(sql, {"room_name":room_name})
-        db.session.commit()
-    except:
-        return False
-    set_admin(room_name)
-    return join_room(room_name)
-
-
 def join_room(room_name):
+    room_id = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
     try:
-        rid = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n": room_name}).fetchone()
         sql = "INSERT INTO participants (user_id, room_id, visible) VALUES (:uid, :rid, TRUE)"
-        db.session.execute(sql, {"uid":get_user_id(), "rid":rid[0]})
+        db.session.execute(sql, {"uid":get_user_id(), "rid":room_id[0]})
         db.session.commit()
     except:
         return False
@@ -72,6 +61,10 @@ def get_user_id():
     return session.get("user_id",0)
 
 
+def get_username():
+    return session.get("username", 0)
+
+
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
@@ -79,8 +72,8 @@ def check_csrf():
 
 def get_user_id_by_username(user_name):
     sql = """SELECT id FROM users WHERE username=:un"""
-    idn = db.session.execute(sql, {"un": user_name}).fetchone()
-    return idn[0]
+    user_id = db.session.execute(sql, {"un": user_name}).fetchone()
+    return user_id[0]
 
 
 def get_room_id():
@@ -100,18 +93,17 @@ def is_member(room_id):
     return False
 
 
-def set_admin(room_name):
-    rid = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
+def set_admin(room_id):
     try:
         sql = """INSERT INTO admins (user_id, room_id) VALUES (:user_id, :room_id)"""
-        db.session.execute(sql, {"user_id":get_user_id(), "room_id":rid[0]})
+        db.session.execute(sql, {"user_id":get_user_id(), "room_id":room_id})
     except:
         return False
     return True
 
 
 def rooms():
-    sql = """SELECT r.name
+    sql = """SELECT r.name, r.id
             FROM participants p, rooms r
             WHERE p.user_id=:uid AND p.room_id = r.id AND p.visible=TRUE"""
     users_rooms = db.session.execute(sql, {"uid": get_user_id()}).fetchall()

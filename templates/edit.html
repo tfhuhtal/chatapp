@@ -12,7 +12,6 @@ Remove members
 <ul>
     {% for member in members %}
         <li><form action="/remove" method="post"><input name="user_name" value="{{ member[0] }}" type="submit" value="Remove"></form></li>
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     {% endfor %}
 </ul>
 {% endif %}

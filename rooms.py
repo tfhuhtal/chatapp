@@ -1,6 +1,7 @@
 from db import db
 import users
 
+
 def get_rooms():
     sql = """SELECT r.name, r.id, count(p.user_id)
             FROM rooms r
@@ -12,7 +13,7 @@ def get_rooms():
     result = []
     for xroom in rooms:
         for yroom in room_list:
-            if xroom[0] == yroom[0]:
+            if xroom[1] == yroom[1]:
                 result.append(yroom)
     return result
 
@@ -37,6 +38,19 @@ def get_members(room_id):
             WHERE u.id = p.user_id AND p.room_id=:rid AND p.visible=TRUE"""
     members = db.session.execute(sql, {"rid":room_id}).fetchall()
     return members
+
+
+def add_room(room_name):
+    try:
+        sql = "INSERT INTO rooms (name) VALUES (:room_name)"
+        db.session.execute(sql, {"room_name":room_name})
+        db.session.commit()
+    except:
+        return False
+    room_id = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n": room_name}).fetchone()
+    users.set_admin(room_id[0])
+    return users.join_room(room_name)
+
 
 def update_name(room_name):
     try:
