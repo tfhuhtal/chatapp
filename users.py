@@ -1,4 +1,5 @@
-from flask import session
+import os
+from flask import abort, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 
@@ -12,6 +13,7 @@ def login(username, password):
     if check_password_hash(user.password, password):
         session["user_id"] = user.id
         session["username"] = username
+        session["csrf_token"] = os.urandom(16).hex()
         return True
     return False
 
@@ -19,6 +21,7 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["username"]
+    del session["csrf_token"]
 
 
 def register(username, password):
@@ -67,6 +70,11 @@ def send_message(content):
 
 def get_user_id():
     return session.get("user_id",0)
+
+
+def check_csrf():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
 
 
 def get_user_id_by_username(user_name):

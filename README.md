@@ -16,7 +16,7 @@ Tämän hetkinen tilanne sovelluksessa:
 Tuotannossa voi testata sovellusta näillä ohjeilla:
 1. kloonaa repo omaan haluamaasi kansioosi
 2. poista db.py ohjelmasta kohta ".replace("://", "ql://", 1)"
-3. aseta omat luo oma .env kansio ja sinne omat secret_key ja database_url muuttujat
+3. luo oma .env kansio ja sinne omat secret_key ja database_url muuttujat
 4. pip install requirements.txt
 5. venv ja psql päälle ja luo schema.sql mukaiset taulut
 6. flask run

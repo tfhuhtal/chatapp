@@ -31,10 +31,16 @@ def logout():
 def register():
     if request.method == "POST":
         username = request.form["username"]
+        if len(username) < 3 or len(username) > 20:
+            return render_template("error.html", message="Username has to be 3 to 20 characters long")
+        if " " in username:
+            return render_template("error.html", message="Whitespaces are not allowed in username")
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("error.html", message="Passwords did not match!")
+        if password1 == "":
+            return render_template("error.html", message="No password set")
         if users.register(username, password1):
             return redirect("/")
         return render_template("error.html", message="Failed to register!")
@@ -44,6 +50,7 @@ def register():
 @app.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "POST":
+        users.check_csrf()
         room_name = request.form["room_name"]
         if users.add_room(room_name):
             return redirect("/")
@@ -54,6 +61,7 @@ def create():
 @app.route("/join", methods=["GET", "POST"])
 def join():
     if request.method == "POST":
+        users.check_csrf()
         room_name = request.form["room_name"]
         if users.join_room(room_name):
             return redirect("/")
@@ -61,26 +69,26 @@ def join():
     return render_template("join.html")
 
 
-@app.route("/rooms/<room_id>/", methods=["GET", "POST"])
+@app.route("/rooms/<room_id>/")
 def view_room(room_id):
     if users.is_member(room_id):
         users.set_room_id(room_id)
         room = rooms.get_room(room_id)
         messages = rooms.get_messages(room_id)
-        members = rooms.get_members(room_id)
-        return render_template("room.html", room=room, messages=messages, members=members)
+        return render_template("room.html", room=room, messages=messages)
     return render_template("error.html", message="You have no access to this chat!")
 
 
 @app.route("/send", methods=["POST"])
 def send():
+    users.check_csrf()
     content = request.form["content"]
     if users.send_message(content):
         return redirect("/rooms/" + users.get_room_id() + "/")
     return render_template("error.html", message="Failed to send a message!")
 
 
-@app.route("/rooms/<room_id>/edit", methods=["GET", "POST"])
+@app.route("/rooms/<room_id>/edit")
 def edit_room_view(room_id):
     if users.is_member(room_id):
         room = rooms.get_room(room_id)
@@ -91,6 +99,7 @@ def edit_room_view(room_id):
 
 @app.route("/edit", methods=["POST"])
 def edit():
+    users.check_csrf()
     room_name = request.form["room_name"]
     if rooms.update_name(room_name):
         return redirect("/rooms/" + users.get_room_id() + "/")
@@ -99,6 +108,7 @@ def edit():
 
 @app.route("/remove", methods=["POST"])
 def remove():
+    users.check_csrf()
     user_name = request.form["user_name"]
     if not rooms.is_admin():
         return render_template("error.html", message="You have no admin rights")

@@ -1,14 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
 Update room name or remove participants.
 <p>
 <form action="/edit" method="post">
     <input type="text" name="room_name" value="{{ room[0] }}" minlength="1" maxlength="5000" required="True">
     <input type="submit" value="update">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 Remove members
 <ul>
     {% for member in members %}
         <li><form action="/remove" method="post"><input name="user_name" value="{{ member[0] }}" type="submit" value="Remove"></form></li>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     {% endfor %}
 </ul>
 {% endif %}
+{% endblock %}

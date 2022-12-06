@@ -1,12 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
-{{ room[0] }} | <a href="/">Chats</a> | <a href="/logout">Logout</a> | <a href="/rooms/{{ session.room_id }}/edit">Edit</a>
-<p>
-Members
-<ul>
-    {% for member in members %}
-        <li>{{ member[0] }}</li>
-    {% endfor %}
-</ul>
+<h2>{{ room[0] }}</h2> 
+<a href="/rooms/{{ session.room_id }}/edit">Edit</a>
 <p>
 {% for message in messages %}
     <div>{{ message[0] }}&nbsp;[{{ message[1].strftime("%m-%d %H:%M") }}]:&nbsp; {{ message[2] }}</div>
@@ -15,5 +11,7 @@ Members
 <form action="/send" method="post">
     <textarea type="text" name="content" rows="1" cols="20" minlength="1" maxlength="5000" required="True"></textarea>
     <input type="submit" value="Send"></input>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}
+{% endblock %}

@@ -1,9 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
 <form action="/create" method="post">
     Room: <input type="text" name="room_name">
     <p>
     <input type="submit" value="Create room">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
-{% else %}
-<a href="/login">Login</a>
 {% endif %}
+{% endblock %}
