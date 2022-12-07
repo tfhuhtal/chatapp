@@ -87,11 +87,12 @@ def view_room(room_id):
 
 @app.route("/send", methods=["POST"])
 def send():
-    users.check_csrf()
-    content = request.form["content"]
-    if users.send_message(content):
-        return redirect("/rooms/" + users.get_room_id() + "/")
-    return render_template("error.html", message="Failed to send a message!")
+    if request.method == "POST":
+        users.check_csrf()
+        content = request.form["content"]
+        if users.send_message(content):
+            return redirect("/rooms/" + users.get_room_id() + "/")
+        return render_template("error.html", message="Failed to send a message!")
 
 
 @app.route("/rooms/<room_id>/edit")
@@ -105,11 +106,12 @@ def edit_room_view(room_id):
 
 @app.route("/edit", methods=["POST"])
 def edit():
-    users.check_csrf()
-    room_name = request.form["room_name"]
-    if rooms.update_name(room_name):
-        return redirect("/rooms/" + users.get_room_id() + "/")
-    return render_template("error.html", message="Failed to update name")
+    if request.method == "POST":
+        users.check_csrf()
+        room_name = request.form["room_name"]
+        if rooms.update_name(room_name):
+            return redirect("/rooms/" + users.get_room_id() + "/")
+        return render_template("error.html", message="Failed to update name")
 
 
 @app.route("/remove", methods=["POST"])
@@ -121,3 +123,15 @@ def remove():
                 return render_template("error.html", message="You have no rights to remove user")
         if rooms.remove_user(user_name):
             return redirect("/rooms/" + users.get_room_id() + "/")
+
+
+@app.route("/search", methods=["POST"])
+def search():
+    if request.method == "POST":
+        word = request.form["search"]
+        if word != "":
+            results = rooms.get_results(word)
+            if len(results) == 0:
+                return render_template("error.html", message="No results found")
+            return render_template("/results.html", results=results)
+        return render_template("error.html", message="No search word given")

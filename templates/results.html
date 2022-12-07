@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if session.user_id %}
+Here is your search results!
+{% for result in results %}
+<p></p>
+{{ result[0] }}
+{% endfor %}
+{% endif%}
+{% endblock %}

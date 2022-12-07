@@ -81,3 +81,10 @@ def is_admin():
         if admin[0] == users.get_user_id():
             return True
     return False
+
+
+def get_results(word):
+    sql = """SELECT DISTINCT m.content FROM messages m, participants p
+            WHERE m.room_id=p.room_id AND p.user_id=:uid AND m.content LIKE :word"""
+    results = db.session.execute(sql, {"uid":users.get_user_id(), "word":'%'+word+'%'}).fetchall()
+    return results
