@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if session.user_id %}
+<form action="/rooms/{{ session.room_id }}/message/{{ message[3] }}_edit/" method="post">
+    <textarea type="text" name="content" rows="5" cols="50" minlength="1" maxlength="5000" required="True">{{ message[2] }}</textarea>
+    <input type="submit" value="Edit"></input>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% endif %}
+{% endblock %}

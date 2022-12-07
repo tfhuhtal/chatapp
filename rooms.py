@@ -25,11 +25,29 @@ def get_room(room_id):
 
 
 def get_messages(room_id):
-    sql = """SELECT u.username, m.sent_at, m.content
+    sql = """SELECT u.username, m.sent_at, m.content, m.id
             FROM users u, messages m 
             WHERE m.room_id=:rid AND m.user_id = u.id ORDER BY m.sent_at"""
     messages = db.session.execute(sql, {"rid":room_id}).fetchall()
     return messages
+
+
+def get_message(message_id):
+    sql = """SELECT u.username, m.sent_at, m.content, m.id
+            FROM users u, messages m 
+            WHERE m.id=:mid AND m.user_id = u.id"""
+    message = db.session.execute(sql, {"mid":message_id}).fetchone()
+    return message
+
+
+def update_message(content, message_id):
+    try:
+        sql = """UPDATE messages SET content=:content WHERE id=:mid"""
+        db.session.execute(sql, {"content":content, "mid":message_id})
+        db.session.commit()
+    except:
+        return False
+    return True
 
 
 def get_members(room_id):

@@ -108,3 +108,9 @@ def rooms():
             WHERE p.user_id=:uid AND p.room_id = r.id AND p.visible=TRUE"""
     users_rooms = db.session.execute(sql, {"uid": get_user_id()}).fetchall()
     return users_rooms
+
+
+def get_stats():
+    result = []
+    return result
+    

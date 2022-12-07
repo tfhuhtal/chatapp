@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if session.user_id %}
+{{ session.username }}'s profile
+{% endif%}
+{% endblock %}

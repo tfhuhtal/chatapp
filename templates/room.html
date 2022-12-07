@@ -5,11 +5,11 @@
 <a href="/rooms/{{ session.room_id }}/edit">Edit</a>
 <p>
 {% for message in messages %}
-    <div>{{ message[0] }}&nbsp;[{{ message[1].strftime("%m-%d %H:%M") }}]:&nbsp; {{ message[2] }}</div>
+    <div>{{ message[0] }}&nbsp;{{ message[1].strftime("%m-%d %H:%M") }}:&nbsp; {{ message[2] }} <a href="/rooms/{{ session.room_id }}/message/{{ message[3] }}">+</a></div>
 {% endfor %}
 
 <form action="/send" method="post">
-    <textarea type="text" name="content" rows="1" cols="20" minlength="1" maxlength="5000" required="True"></textarea>
+    <textarea type="text" name="content" rows="5" cols="50" minlength="1" maxlength="5000" required="True"></textarea>
     <input type="submit" value="Send"></input>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
