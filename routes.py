@@ -146,6 +146,8 @@ def search():
 def edit_message_view(room_id, message_id):
     if users.is_member(room_id):
         message = rooms.get_message(message_id)
+        if message is None:
+            return render_template("error.html", message="No access to this message")
         return render_template("edit_message.html", message=message)
     return render_template("error.html", message="You have no access to this site")
 

@@ -34,9 +34,9 @@ def get_messages(room_id):
 
 def get_message(message_id):
     sql = """SELECT u.username, m.sent_at, m.content, m.id
-            FROM users u, messages m 
-            WHERE m.id=:mid AND m.user_id = u.id"""
-    message = db.session.execute(sql, {"mid":message_id}).fetchone()
+            FROM users u, messages m, participants p
+            WHERE m.id=:mid AND m.user_id = u.id AND m.user_id=:uid"""
+    message = db.session.execute(sql, {"mid":message_id,"uid":users.get_user_id()}).fetchone()
     return message
 
 
