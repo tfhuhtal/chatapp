@@ -42,7 +42,7 @@ def get_message(message_id):
 
 def update_message(content, message_id):
     try:
-        sql = """UPDATE messages SET content=:content WHERE id=:mid"""
+        sql = """UPDATE messages SET content=:content, sent_at=NOW() WHERE id=:mid"""
         db.session.execute(sql, {"content":content, "mid":message_id})
         db.session.commit()
     except:
@@ -102,7 +102,10 @@ def is_admin():
 
 
 def get_results(word):
-    sql = """SELECT DISTINCT m.content FROM messages m, participants p
-            WHERE m.room_id=p.room_id AND p.user_id=:uid AND m.content LIKE :word"""
+    sql = """SELECT DISTINCT m.content
+            FROM messages m, participants p
+            WHERE m.room_id=p.room_id AND p.user_id=:uid
+            AND m.content LIKE :word"""
     results = db.session.execute(sql, {"uid":users.get_user_id(), "word":'%'+word+'%'}).fetchall()
     return results
+    

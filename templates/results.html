@@ -6,5 +6,10 @@ Here is your search results!
 <p></p>
 {{ result[0] }}
 {% endfor %}
+Rooms available:
+{% for result in results %}
+<p></p>
+{{ result[1] }}
+{% endfor %}
 {% endif%}
 {% endblock %}
