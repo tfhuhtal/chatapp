@@ -42,7 +42,7 @@ def get_message(message_id):
 
 def update_message(content, message_id):
     try:
-        sql = """UPDATE messages SET content=:content, sent_at=NOW() WHERE id=:mid"""
+        sql = """UPDATE messages SET content=:content WHERE id=:mid"""
         db.session.execute(sql, {"content":content, "mid":message_id})
         db.session.commit()
     except:

@@ -2,10 +2,11 @@
 {% block content %}
 {% if session.user_id %}
 <form action="/join" method="post">
-    Room: <input type="text" name="room_name">
+    Roomname: <input class="form-control mr-sm-2" type="text" name="room_name">
     <p>
-    <input type="submit" value="Join room">
+    <input class="form-control mr-sm-2" type="submit" value="Join room">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
+<p></p>
 {% endif %}
 {% endblock %}
