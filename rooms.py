@@ -27,7 +27,7 @@ def get_room(room_id):
 def get_messages(room_id):
     sql = """SELECT u.username, m.sent_at, m.content, m.id
             FROM users u, messages m 
-            WHERE m.room_id=:rid AND m.user_id = u.id ORDER BY m.sent_at"""
+            WHERE m.room_id=:rid AND m.user_id = u.id ORDER BY m.sent_at DESC"""
     messages = db.session.execute(sql, {"rid":room_id}).fetchall()
     return messages
 
