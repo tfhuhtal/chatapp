@@ -9,7 +9,7 @@
 {% endfor %}
 
 <form action="/send" method="post">
-    <div class="chat-bar" style="bottom: 0; position: fixed; width: 60%;">
+    <div class="chat-bar" style="width: 60%;">
     <input class="form-control mr-sm-2" type="text" name="content" minlength="1" maxlength="5000" required="True"></textarea>
     <input class="form-control mr-sm-2" type="submit" value="Send"></input>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
