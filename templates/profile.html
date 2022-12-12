@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if session.user_id %}
-{{ session.username }}'s profile
+<h3>{{ session.username }}'s profile</h3>
+<p>You are admin in these rooms:</p>
+<ul>
+{% for stat in stats %}
+    <li><a href="/rooms/{{ stat[0] }}">{{ stat[1] }}</a></li>
+{% endfor %}
+</ul>
+<p>You have sent {{ count[0] }} messages.</p>
+<p>If you want to join in to secret room, type "secret" in the search bar!</p>
 {% endif%}
 {% endblock %}

@@ -111,6 +111,14 @@ def rooms():
 
 
 def get_stats():
-    result = []
+    sql = """SELECT a.room_id, r.name FROM admins a, rooms r
+            WHERE a.user_id=:uid AND a.room_id=r.id"""
+    result = db.session.execute(sql, {"uid":get_user_id()}).fetchall()
     return result
+
+
+def get_count():
+    sql = """SELECT COUNT(*) FROM messages WHERE user_id=:uid"""
+    count = db.session.execute(sql, {"uid":get_user_id()}).fetchone()
+    return count
     

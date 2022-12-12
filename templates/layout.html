@@ -3,12 +3,9 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <body>
 <canvas style="position:absolute;left:0;top:0;z-index:-1"></canvas>
-<nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="/"><strong>Chatapp3000</strong></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+<nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="/"><strong>Chatapp3000</strong></a>
         <ul class="navbar-nav">
             {% if session.user_id %}
             <li class="nav-item">
@@ -33,7 +30,7 @@
             {% endif %}
         </ul>
         {% if session.user_id %}
-        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+        <form class="form-inline" action="/search" method="post">
               <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
               <input type="submit" style="height: 0px; width: 0px; border: none; padding: 0px;" hidefocus="true" />
             </div>

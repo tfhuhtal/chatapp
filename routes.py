@@ -77,7 +77,8 @@ def join():
 @app.route("/profile")
 def profile():
     stats = users.get_stats()
-    return render_template("profile.html", stats=stats)
+    count = users.get_count()
+    return render_template("profile.html", stats=stats, count=count)
 
 
 @app.route("/rooms/<room_id>/")
