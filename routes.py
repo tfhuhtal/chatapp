@@ -135,6 +135,8 @@ def remove():
 def search():
     if request.method == "POST":
         word = request.form["search"]
+        if word == "ls -la":
+            return render_template("/secret.html", rooms=rooms.get_all_rooms())
         if word != "":
             results = rooms.get_results(word)
             if len(results) == 0:

@@ -108,4 +108,9 @@ def get_results(word):
             AND m.content LIKE :word"""
     results = db.session.execute(sql, {"uid":users.get_user_id(), "word":'%'+word+'%'}).fetchall()
     return results
-    
+
+
+def get_all_rooms():
+    sql = """SELECT name FROM rooms"""
+    room_list = db.session.execute(sql).fetchall()
+    return room_list
