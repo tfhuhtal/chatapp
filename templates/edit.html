@@ -11,17 +11,17 @@ Update room name or remove participants.
 Remove members
 <ul>
     {% for member in members %}
-        <li><form class="form-inline" action="/remove" method="post"><input name="user_name" value="{{ member[0] }}" type="submit" value="Remove"></form></li>
+        <li><form class="form-inline" action="/remove" method="post"><input class="form-control mr-sm-2" name="user_name" value="{{ member[0] }}" type="submit" value="Remove"></form></li>
     {% endfor %}
 </ul>
 <p></p>
 change privacy:
 <form class="form-inline" action="/set_privacy" method="post">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input class="form-control mr-sm-2" type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     {% if private == True %}
-        <input type="submit" value="set public">
+        <input class="form-control mr-sm-2" type="submit" value="set public">
     {% else %}
-        <input type="submit" value="set private">
+        <input class="form-control mr-sm-2" type="submit" value="set private">
     {% endif %}
 {% endif %}
 {% endblock %}
