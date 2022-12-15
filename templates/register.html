@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="/register" method="post">
+<form action="/register" method="post" onsubmit="return check(this)">
     Username: <input class="form-control mr-sm-2" type="text" name="username" minlength="3" maxlength="20" required="True">
     <p>
     Password: <input class="form-control mr-sm-2" type="password" name="password1" minlength="8" maxlength="50" required="True">
@@ -11,3 +11,13 @@
     </form>
 <p></p>
 {% endblock %}
+
+<script>
+    function check(form) {
+        if (form.password1.value != form.password2.value) {
+            alert("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+</script>
