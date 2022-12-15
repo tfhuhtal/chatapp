@@ -13,7 +13,8 @@ CREATE TABLE participants (
 
 CREATE TABLE rooms (
     id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE
+    name TEXT UNIQUE,
+    privacy BOOLEAN
 );
 
 CREATE TABLE messages (

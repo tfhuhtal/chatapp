@@ -106,7 +106,7 @@ def edit_room_view(room_id):
     if users.is_member(room_id):
         room = rooms.get_room(room_id)
         members = rooms.get_members(room_id)
-        return render_template("edit.html", room=room, members=members)
+        return render_template("edit.html", room=room, members=members, private=rooms.is_private(room_id))
     return render_template("error.html", message="You have no access to this site")
 
 
@@ -118,6 +118,19 @@ def edit():
         if rooms.update_name(room_name):
             return redirect("/rooms/" + users.get_room_id() + "/")
         return render_template("error.html", message="Failed to update name")
+
+
+@app.route("/set_privacy", methods=["POST"])
+def set_private():
+    if request.method == "POST":
+        users.check_csrf()
+        if rooms.is_private(users.get_room_id()):
+            if rooms.set_public():
+                return redirect("/rooms/" + users.get_room_id() + "/")
+            return render_template("error.html", message="Failed to set public")
+        if rooms.set_private():
+            return redirect("/rooms/" + users.get_room_id() + "/")
+        return render_template("error.html", message="Failed to set private")
 
 
 @app.route("/remove", methods=["POST"])

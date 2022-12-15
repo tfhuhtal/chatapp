@@ -37,23 +37,19 @@ def register(username, password):
 
 def join_room(room_name):
     room_id = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
-    try:
-        sql = "INSERT INTO participants (user_id, room_id, visible) VALUES (:uid, :rid, TRUE)"
-        db.session.execute(sql, {"uid":get_user_id(), "rid":room_id[0]})
-        db.session.commit()
-    except:
+    if private(room_id[0]):
         return False
+    sql = "INSERT INTO participants (user_id, room_id, visible) VALUES (:uid, :rid, TRUE)"
+    db.session.execute(sql, {"uid":get_user_id(), "rid":room_id[0]})
+    db.session.commit()
     return True
 
 
 def send_message(content):
-    try:
-        sql = """INSERT INTO messages (room_id, user_id, content, sent_at)
-                VALUES (:room_id, :user_id, :content, NOW())"""
-        db.session.execute(sql,{"room_id":get_room_id(),"user_id":get_user_id(),"content":content})
-        db.session.commit()
-    except:
-        return False
+    sql = """INSERT INTO messages (room_id, user_id, content, sent_at)
+            VALUES (:room_id, :user_id, :content, NOW())"""
+    db.session.execute(sql,{"room_id":get_room_id(),"user_id":get_user_id(),"content":content})
+    db.session.commit()
     return True
 
 
@@ -94,11 +90,8 @@ def is_member(room_id):
 
 
 def set_admin(room_id):
-    try:
-        sql = """INSERT INTO admins (user_id, room_id) VALUES (:user_id, :room_id)"""
-        db.session.execute(sql, {"user_id":get_user_id(), "room_id":room_id})
-    except:
-        return False
+    sql = """INSERT INTO admins (user_id, room_id) VALUES (:user_id, :room_id)"""
+    db.session.execute(sql, {"user_id":get_user_id(), "room_id":room_id})
     return True
 
 
@@ -121,4 +114,9 @@ def get_count():
     sql = """SELECT COUNT(*) FROM messages WHERE user_id=:uid"""
     count = db.session.execute(sql, {"uid":get_user_id()}).fetchone()
     return count
-    
+
+
+def private(room_id):
+    sql = """SELECT privacy FROM rooms WHERE id=:id"""
+    privacy = db.session.execute(sql, {"id":room_id}).fetchone()
+    return privacy[0]

@@ -19,7 +19,7 @@ def get_rooms():
 
 
 def get_room(room_id):
-    sql = "SELECT name FROM rooms WHERE id=:room_id"
+    sql = "SELECT name, id FROM rooms WHERE id=:room_id"
     room = db.session.execute(sql, {"room_id":room_id}).fetchone()
     return room
 
@@ -41,12 +41,9 @@ def get_message(message_id):
 
 
 def update_message(content, message_id):
-    try:
-        sql = """UPDATE messages SET content=:content WHERE id=:mid"""
-        db.session.execute(sql, {"content":content, "mid":message_id})
-        db.session.commit()
-    except:
-        return False
+    sql = """UPDATE messages SET content=:content WHERE id=:mid"""
+    db.session.execute(sql, {"content":content, "mid":message_id})
+    db.session.commit()
     return True
 
 
@@ -60,7 +57,7 @@ def get_members(room_id):
 
 def add_room(room_name):
     try:
-        sql = "INSERT INTO rooms (name) VALUES (:room_name)"
+        sql = "INSERT INTO rooms (name, privacy) VALUES (:room_name, FALSE)"
         db.session.execute(sql, {"room_name":room_name})
         db.session.commit()
     except:
@@ -81,12 +78,9 @@ def update_name(room_name):
 
 def remove_user(user_name):
     idn = users.get_user_id_by_username(user_name)
-    try:
-        sql = """UPDATE participants SET visible=FALSE WHERE user_id=:uid AND room_id=:rid"""
-        db.session.execute(sql, {"uid":idn, "rid":users.get_room_id()})
-        db.session.commit()
-    except:
-        return False
+    sql = """UPDATE participants SET visible=FALSE WHERE user_id=:uid AND room_id=:rid"""
+    db.session.execute(sql, {"uid":idn, "rid":users.get_room_id()})
+    db.session.commit()
     return True
 
 
@@ -114,3 +108,25 @@ def get_all_rooms():
     sql = """SELECT name FROM rooms"""
     room_list = db.session.execute(sql).fetchall()
     return room_list
+
+
+def set_private():
+    if is_admin():
+        sql = """UPDATE rooms SET privacy=TRUE WHERE id=:rid"""
+        db.session.execute(sql, {"rid":users.get_room_id()})
+        db.session.commit()
+        return True
+    return False
+
+def set_public():
+    if is_admin():
+        sql = """UPDATE rooms SET privacy=FALSE WHERE id=:rid"""
+        db.session.execute(sql, {"rid":users.get_room_id()})
+        db.session.commit()
+        return True
+    return False
+
+def is_private(room_id):
+    sql = """SELECT privacy FROM rooms WHERE id=:rid"""
+    result = db.session.execute(sql, {"rid":room_id}).fetchone()
+    return result[0]

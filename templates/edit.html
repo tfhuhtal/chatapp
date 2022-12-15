@@ -15,5 +15,13 @@ Remove members
     {% endfor %}
 </ul>
 <p></p>
+change privacy:
+<form class="form-inline" action="/set_privacy" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    {% if private == True %}
+        <input type="submit" value="set public">
+    {% else %}
+        <input type="submit" value="set private">
+    {% endif %}
 {% endif %}
 {% endblock %}
