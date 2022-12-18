@@ -2,7 +2,7 @@
 
 Sovelluksen nettisivu: https://chatapp3000.fly.dev
 
-##Ominaisuudet
+## Ominaisuudet
 
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet:
 - voi luoda uuden käyttäjätunnuksen
@@ -19,7 +19,7 @@ Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet:
 - muokata lähettämäänsä viestiä
 - huoneen ylläpitäjä voi muokata keskustelun tilaa julkiseksi tai yksityiseksi
 
-##Testaus
+## Testaus
 
 Tuotannossa voi testata sovellusta näillä ohjeilla:
 1. Kloonaa repo `git clone git@github.com:tfhuhtal/chatapp.git`
