@@ -129,5 +129,3 @@ def is_private(room_id):
     sql = """SELECT privacy FROM rooms WHERE id=:rid"""
     result = db.session.execute(sql, {"rid":room_id}).fetchone()
     return result[0]
-
-
