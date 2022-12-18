@@ -106,7 +106,8 @@ def edit_room_view(room_id):
     if users.is_member(room_id):
         room = rooms.get_room(room_id)
         members = rooms.get_members(room_id)
-        return render_template("edit.html", room=room, members=members, private=rooms.is_private(room_id))
+        private = rooms.is_private(room_id)
+        return render_template("edit.html",room=room,members=members, private=private)
     return render_template("error.html", message="You have no access to this site")
 
 

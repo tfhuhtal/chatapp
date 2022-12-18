@@ -3,18 +3,17 @@ import users
 
 
 def get_rooms():
-    sql = """SELECT r.name, r.id, count(p.user_id)
+    sql = """SELECT r.name, r.id, COUNT(p.user_id) OVER (PARTITION BY r.id)
             FROM rooms r
             LEFT JOIN participants p
-            ON r.id = p.room_id AND p.visible=TRUE
-            GROUP BY r.name, r.id"""
+            ON r.id = p.room_id AND p.visible = TRUE"""
     room_list = db.session.execute(sql).fetchall()
     rooms = users.rooms()
+    rooms_dict = {xroom[1]: True for xroom in rooms}
     result = []
-    for xroom in rooms:
-        for yroom in room_list:
-            if xroom[1] == yroom[1]:
-                result.append(yroom)
+    for yroom in room_list:
+        if yroom[1] in rooms_dict:
+            result.append(yroom)
     return result
 
 
@@ -130,4 +129,5 @@ def is_private(room_id):
     sql = """SELECT privacy FROM rooms WHERE id=:rid"""
     result = db.session.execute(sql, {"rid":room_id}).fetchone()
     return result[0]
-    
+
+

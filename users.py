@@ -36,12 +36,15 @@ def register(username, password):
 
 
 def join_room(room_name):
-    room_id = db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
-    if private(room_id[0]):
+    try:
+        room_id=db.session.execute("SELECT id FROM rooms WHERE name=:n", {"n":room_name}).fetchone()
+        if private(room_id[0]):
+            return False
+        sql = "INSERT INTO participants (user_id, room_id, visible) VALUES (:uid, :rid, TRUE)"
+        db.session.execute(sql, {"uid":get_user_id(), "rid":room_id[0]})
+        db.session.commit()
+    except:
         return False
-    sql = "INSERT INTO participants (user_id, room_id, visible) VALUES (:uid, :rid, TRUE)"
-    db.session.execute(sql, {"uid":get_user_id(), "rid":room_id[0]})
-    db.session.commit()
     return True
 
 
