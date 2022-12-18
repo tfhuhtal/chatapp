@@ -23,7 +23,7 @@ Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet:
 
 Tuotannossa voi testata sovellusta näillä ohjeilla:
 1. Kloonaa repo `git clone git@github.com:tfhuhtal/chatapp.git`
-2. Poista `db.py`-moduulista 5. rivin kohta `.replace("://", "ql://", 1)`.
+2. Kommentoi `db.py`-moduulista 5. rivin kohta `.replace("://", "ql://", 1)`.
 3. Luo oma `.env`, jonne luo omat ympäristömuuttujat `SECRET_KEY=` ja `DATABASE_URL=`.
 4. Aja terminaalissa `pip install requirements.txt`. 
 5. Aja terminaalissa `source venv/bin/activate` sekä luo terminaalissa PostgreSQL-tietokannan taulut `psql < schema.sql`.
