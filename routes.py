@@ -51,13 +51,13 @@ def create():
     if request.method == "POST":
         users.check_csrf()
         room_name = request.form["room_name"]
-        for room in users.rooms():
-            if room[0] == room_name:
-                return render_template("error.html", message="This room already exists")
+        if room_name in (room[0] for room in users.rooms()):
+            return render_template("error.html", message="This room already exists")
         if rooms.add_room(room_name):
             return redirect("/")
         return render_template("error.html", message="Failed to create room!")
     return render_template("create.html")
+
 
 
 @app.route("/join", methods=["GET", "POST"])
@@ -65,9 +65,8 @@ def join():
     if request.method == "POST":
         users.check_csrf()
         room_name = request.form["room_name"]
-        for room in users.rooms():
-            if room[0] == room_name:
-                return render_template("error.html", message="You have already joined to this room")
+        if room_name in (room[0] for room in users.rooms()):
+            return render_template("error.html", message="You have already joined to this room")
         if users.join_room(room_name):
             return redirect("/")
         return render_template("error.html", message="Failed to join room!")

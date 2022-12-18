@@ -10,10 +10,7 @@ def get_rooms():
     room_list = db.session.execute(sql).fetchall()
     rooms = users.rooms()
     rooms_dict = {xroom[1]: True for xroom in rooms}
-    result = []
-    for yroom in room_list:
-        if yroom[1] in rooms_dict:
-            result.append(yroom)
+    result = [yroom for yroom in room_list if yroom[1] in rooms_dict]
     return result
 
 

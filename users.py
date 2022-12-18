@@ -6,12 +6,12 @@ from db import db
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"username":username})
-    user = result.fetchone()
-    if not user:
+    result = db.session.execute(sql, {"username":username}).fetchone()
+    if not result:
         return False
-    if check_password_hash(user.password, password):
-        session["user_id"] = user.id
+    user_id, pw_hash = result
+    if check_password_hash(pw_hash, password):
+        session["user_id"] = user_id
         session["username"] = username
         session["csrf_token"] = os.urandom(16).hex()
         return True
@@ -19,9 +19,9 @@ def login(username, password):
 
 
 def logout():
-    del session["user_id"]
-    del session["username"]
-    del session["csrf_token"]
+    session.pop("user_id", None)
+    session.pop("username", None)
+    session.pop("csrf_token", None)
 
 
 def register(username, password):
@@ -84,12 +84,12 @@ def set_room_id(room_id):
 
 
 def is_member(room_id):
-    sql = """SELECT user_id FROM participants WHERE room_id=:id AND visible=TRUE"""
-    users = db.session.execute(sql, {"id":room_id}).fetchall()
-    for user in users:
-        if user[0] == get_user_id():
-            return True
-    return False
+    user_id = get_user_id()
+    sql = """SELECT 1 FROM participants
+            WHERE room_id = :room_id AND user_id = :user_id AND visible = TRUE
+            LIMIT 1"""
+    result = db.session.execute(sql, {"room_id": room_id, "user_id": user_id}).fetchone()
+    return result is not None
 
 
 def set_admin(room_id):
