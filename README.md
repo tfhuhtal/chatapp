@@ -1,7 +1,5 @@
 # chatapp
 
-Sovelluksen nettisivu: https://chatapp3000.fly.dev
-
 ## Ominaisuudet
 
 Tässä on keskustelusovellukseni jossa on seuraavat ominaisuudet:
